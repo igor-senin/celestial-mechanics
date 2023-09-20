@@ -28,3 +28,10 @@ class System:
                 if i != j:
                     self.objects[i] += self.physical_laws.TransformationShift(objects_copy[i], objects_copy[j])
                     self.objects[j] += self.physical_laws.TransformationShift(objects_copy[j], objects_copy[i])
+
+    def GetCoordinates(self, index):
+        return self.objects[index].coordinate
+
+    def GetID(self, index):
+        return self.objects[index].id
+
