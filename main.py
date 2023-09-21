@@ -20,11 +20,8 @@ class System:
 
 
 class CelestialBody:
-    # TODO : ???
-    AU = 149.6e6 * 1000  # Astronomical unit
-    G = 6.67428e-11  # Gravitational constant
-    TIMESTEP = 60 * 60 * 24 * 2  # Seconds in 2 days
-    SCALE = 200 / AU
+    # TODO : constants
+    G = 6.67428e-11
     """
     Характеристики небесных тел:
         координата x
@@ -53,14 +50,11 @@ class CelestialBody:
         pass
 
     def draw(self, window, draw_line):
-        x = self.x_coord * self.SCALE + Width / 2.0
-        y = self.y_coord * self.SCALE + Height / 2.0
-
         if len(self.trace) > 2:
             # TODO: draw trace
             pass
 
-        pygame.draw.circle(window, self.colour, (x, y), self.radius)
+        pygame.draw.circle(window, self.colour, (self.x_coord, self.y_coord), self.radius)
 
 
 class Earth(CelestialBody):
@@ -100,8 +94,8 @@ def main_cycle():
     earth = Earth(
             start_x=0,
             start_y=0,
-            radius=3 * CelestialBody.SCALE * 10 ** 9,
-            mass=1.98892 * 10** 30,
+            radius=6.378 * 10**6,
+            mass=5.9736 * 10**24,
             colour=White
             )
 
