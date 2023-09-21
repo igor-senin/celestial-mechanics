@@ -1,12 +1,18 @@
+from typing import List
+
 class Object:
     """
-    this class presents Objects like Moon or Sun or other with their parametrs 
+    presents Objects like Moon or Sun or other with their parametrs 
     like weight or speed
     """
-    def __init__(self, weight, radius, speed, direction, coordinate, id):
+    def __init__(self, 
+                 weight : float, 
+                 radius : float, 
+                 direction : List[float], 
+                 coordinate : List[float], 
+                 id : int):
         self.weight = weight
         self.radius = radius 
-        self.speed = speed 
         self.direction = direction
         self.coordinate = coordinate
         self.id = id
