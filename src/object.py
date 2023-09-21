@@ -1,19 +1,19 @@
 from typing import List
 
-class Object:
+class Body:
     """
-    presents Objects like Moon or Sun or other with their parametrs 
-    like weight or speed
+    represents celestial bodies like Moon, Sun or other
+    with their parameters like weight or speed
     """
     def __init__(self, 
-                 weight : float, 
-                 radius : float, 
-                 direction : List[float], 
-                 coordinate : List[float], 
-                 id : int):
+                 weight: float, 
+                 radius: float, 
+                 direction: List[float], 
+                 coordinates: List[float], 
+                 id: int):
         self.weight = weight
         self.radius = radius 
         self.direction = direction
-        self.coordinate = coordinate
+        self.coordinates = coordinates
         self.id = id
 
