@@ -14,6 +14,7 @@ class System:
     def __init__(self, accuracy, centre, physical_laws):
         self.bodies = []
         self.accuracy = accuracy
+        self.time = accuracy # may be unused
         self.centre = centre
         self.physical_laws = physical_laws
 
