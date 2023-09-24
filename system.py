@@ -11,8 +11,8 @@ class System:
     corresponding function
     """
 
-    def __init__(self, accuracy, centre, physical_laws):
-        self.bodies = []
+    def __init__(self, accuracy, centre, physical_laws, bodies):
+        self.bodies = bodies 
         self.accuracy = accuracy
         self.time = accuracy # may be unused
         self.centre = centre
