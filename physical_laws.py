@@ -12,18 +12,18 @@ class PhysicalLaws:
 
     def __init__(self):
         pass
-    
+
     def CalculateLawOfUniversalGravitation(self, first_body, second_body, accuracy, time):
         x_distance = second_body.coordinates[0] - first_body.coordinates[0]
-        v_x = second_body.direction[0]
+        v_x = second_body.velocity[0]
 
         y_distance = second_body.coordinates[1] - first_body.coordinates[1]
-        v_y = second_body.direction[1]
+        v_y = second_body.velocity[1]
 
         distance_squared = x_distance ** 2 + y_distance ** 2
 
-        v_x_dt = v_x + accuracy * -self.G * second_body.weight / distance_squared
-        v_y_dt = v_y + accuracy * -self.G * second_body.weight / distance_squared
+        v_x_dt = v_x + accuracy * -self.G * second_body.weight / distance_squared * (-1 if x_distance < 0 else 1)
+        v_y_dt = v_y + accuracy * -self.G * second_body.weight / distance_squared * (-1 if y_distance < 0 else 1)
 
         coordinate_shift = [v_x_dt  * time, v_y_dt * time]
         direction_shift =  [v_x_dt - v_x, v_y_dt - v_y]
