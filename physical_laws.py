@@ -14,6 +14,11 @@ class PhysicalLaws:
         pass
 
     def CalculateLawOfUniversalGravitation(self, first_body, second_body, accuracy, time):
+        """
+        in this function, using the Euler method, the increase in speed and the change 
+        in the coordinates of one body relative to another are calculated according to 
+        the law of universal gravitation
+        """
         x_distance = second_body.coordinates[0] - first_body.coordinates[0]
         v_x = second_body.velocity[0]
 
