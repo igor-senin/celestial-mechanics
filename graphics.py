@@ -9,6 +9,9 @@ from math import floor
 White = (255, 255, 255)
 Blue  = (30, 144, 255)
 Black = (0, 0, 0)
+Red   = (255, 0, 0)
+Green = (0, 200, 0)
+Yellow= (255, 255, 0)
 
 def init():
     pygame.init()
