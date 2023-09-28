@@ -46,3 +46,12 @@ class PhysicalLaws:
         result = self.TransformationShift(first_body, second_body, accuracy, time)
 
         return result
+
+    def GetPotential(self, first, second) -> float:
+        return self.G * first.weight * second.weight / sqrt((first[0] -
+                                                             second[0])**2 +
+                                                            (first[1] -
+                                                             second[1]) ** 2)
+
+    def GetKinetic(self, body) -> float:
+        return body.weight * (body.velocity[0]**2 + body.velocity[1]**2) / 2.0

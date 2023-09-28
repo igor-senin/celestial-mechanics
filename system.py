@@ -25,6 +25,9 @@ class System:
         bodies_copy = self.bodies.copy()
         bodies_size = len(bodies_copy)
 
+        potential = 0
+        kinetic = 0
+
         for i in range(bodies_size):
             for j in range(bodies_size):
                 if i == j:
@@ -32,6 +35,9 @@ class System:
 
                 #if bodies_copy[i].id == 2:
                 #    continue
+
+                potential += self.physical_laws.GetPotential(bodies_copy[i], bodies_copy[j])
+                kinetic += self.physical_laws.GetKinetic(bodies_copy[i])
 
                 #print(i, j)
                 j_data = self.physical_laws.Transformation(bodies_copy[i], bodies_copy[j], self.accuracy, self.time)
@@ -42,6 +48,11 @@ class System:
                     self.bodies[j].velocity[k] += j_data[1][k]
                     #self.bodies[i].coordinates[k] -= i_data[0][k]
                     #self.bodies[i].velocity[k] -= i_data[1][k]
+
+        print(f"total potential energy: {potential}")
+        print(f"total kinetic energy: {kinetic}")
+        print(f"sum: {kinetic+potential}")
+        print("\n\n\n")
 
 
     def GetCoordinates(self, index):

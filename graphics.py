@@ -2,6 +2,8 @@ from body import Body
 
 import pygame
 
+from math import floor
+
 
 # colors
 White = (255, 255, 255)
@@ -14,6 +16,9 @@ def init():
     global Width, Height, Window
     Width, Height = pygame.display.Info().current_w, pygame.display.Info().current_h
     Window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    
+    global Universe
+    Universe = pygame.Surface((Width, Height), pygame.SRCALPHA)
 
     pygame.display.set_caption("Celestial Mechanics")
 
@@ -22,6 +27,7 @@ def display_update():
 
 def draw_universe():
     Window.fill(Black)
+    Window.blit(Universe, (0,0))
 
 """
     Drawable class
@@ -58,11 +64,11 @@ class CelestialBody(Body):
 
     def draw_trace(self):
         for i in range(len(self.trace)):
-            pygame.draw.circle(Window,
-                               self.colour,
+            pygame.draw.circle(Universe,
+                               (*self.colour, floor(100 * i / 750) + 50),
                                self.trace[i],
                                5.0)
 
-        #if len(self.trace) > 1000:
-        #    self.trace = self.trace[1:]
+        if len(self.trace) > 750:
+            self.trace = self.trace[1:]
 
