@@ -109,23 +109,24 @@ def main_cycle():
     graphics.init()
 
     earth = CelestialBody(
-            coordinates=[1000, 1000],
-            velocity=[0, 0],
+            coordinates=[graphics.Width / 2.0,
+                         graphics.Height / 2.0],
+            velocity=[0, 5000],
             weight=5 * 10**20,
             radius=6.378 * 10**6,
             id=1,
-            colour=graphics.White,
-            visible_radius=70.0
+            colour=graphics.Blue,
+            visible_radius=40.0
             )
 
     moon = CelestialBody(
             coordinates=[50, 50],
-            velocity=[50, 750],
+            velocity=[5000, 0],
             weight=earth.weight,
             radius=earth.radius/10.0,
             id=2,
             colour=graphics.White,
-            visible_radius=50.0
+            visible_radius=20.0
             )
 
     do_main_cycle([earth, moon])
