@@ -8,12 +8,15 @@ class Body:
     def __init__(self, 
                  weight: float, 
                  radius: float, 
-                 direction: List[float], 
                  coordinates: List[float], 
+                 velocity: List[float],
                  id: int):
         self.weight = weight
         self.radius = radius 
-        self.direction = direction
         self.coordinates = coordinates
+        self.velocity = velocity
         self.id = id
+
+    def __getitem__(self, ind):
+        return self.coordinates[ind]
 

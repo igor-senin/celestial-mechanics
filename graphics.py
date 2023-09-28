@@ -29,15 +29,15 @@ class CelestialBody(Body):
     def __init__(self,
                  weight,
                  radius,
-                 direction,
+                 velocity,
                  coordinates,
                  id,
                  colour,
                  visible_radius=None):
         super(CelestialBody, self).__init__(weight,
                                    radius,
-                                   direction,
                                    coordinates,
+                                   velocity,
                                    id)
         self.colour = colour
         self.visible_radius = radius if visible_radius is None else visible_radius
@@ -51,6 +51,7 @@ class CelestialBody(Body):
                            self.visible_radius)
 
         if len(self.trace) > 2:
-            # TODO: draw trace
+            for i in range(self.trace):
+                pass
             pass
 
