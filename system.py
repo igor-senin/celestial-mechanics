@@ -16,7 +16,7 @@ class System:
 
     def __init__(self, physical_laws, bodies):
         self.bodies = bodies 
-        self.accuracy = Decimal('0.00001')
+        self.accuracy = Decimal('10.0')
         self.time = self.accuracy # may be unused
         self.physical_laws = physical_laws
 
@@ -51,10 +51,10 @@ class System:
                     #self.bodies[i].coordinates[k] -= i_data[0][k]
                     #self.bodies[i].velocity[k] -= i_data[1][k]
 
-        print(f"total potential energy: {potential}")
-        print(f"total kinetic energy: {kinetic}")
-        print(f"sum: {kinetic+potential}")
-        print("\n\n\n")
+#        print(f"total potential energy: {potential}")
+#        print(f"total kinetic energy: {kinetic}")
+#        print(f"sum: {kinetic+potential}")
+#        print("\n\n\n")
 
 
     def GetCoordinates(self, index):

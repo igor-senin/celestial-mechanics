@@ -33,11 +33,11 @@ def draw_universe():
     Window.fill(Black)
     Window.blit(Universe, (0,0))
 
-def draw_weight_center(system: System):
+def draw_weight_center(system: System, coeff: float):
     center = system.GetWeightCenter()
     pygame.draw.circle(Window,
                        Red,
-                       (int(center[0]), int(center[1])),
+                       (float(center[0]) / coeff, float(center[1]) / coeff),
                        2.0)
 
 """
@@ -62,13 +62,15 @@ class CelestialBody(Body):
 
         self.trace = []  # List of (x, y)
 
-    def draw(self):
+    def draw(self, coeff: float):
         pygame.draw.circle(Window,
                            self.colour, 
-                          (int(self.coordinates[0]), int(self.coordinates[1])), 
+                          (float(self.coordinates[0]) / coeff,
+                           float(self.coordinates[1]) / coeff), 
                            self.visible_radius)
 
-        self.trace.append((int(self.coordinates[0]), int(self.coordinates[1])))
+        self.trace.append((float(self.coordinates[0]) / coeff,
+                           float(self.coordinates[1]) / coeff))
 
         if len(self.trace) > 2:
             self.draw_trace()
