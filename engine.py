@@ -18,11 +18,11 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
     clock = pygame.time.Clock()
     run = True
 
+
     phl = PhysicalLaws()
-    getcontext().prec = 1000
     main_system = System(phl, bodies)
     while run:
-        clock.tick(120)
+        clock.tick(60)
         graphics.draw_universe()
 
         for event in pygame.event.get():
@@ -34,7 +34,8 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
 
             #  TODO
 
-        main_system.RecalculateSystem()
+        for i in range(100):
+            main_system.RecalculateSystem()
 
         for b in main_system.GetBodies():
             #print(f"drawing {b.id}")
@@ -197,7 +198,7 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
 def case_2_bodies():
     earth = CelestialBody(
             coordinates=[Decimal(graphics.Width / 2.0),
-                         Decimal(graphics.Height / 2.0)], velocity=[Decimal(5000), Decimal(0)],
+                         Decimal(graphics.Height / 2.0)], velocity=[Decimal(5000), Decimal(30)],
             weight=Decimal(5.9736 * 10**20),
             radius=Decimal(6.378 * 10**6),
             id=1,
@@ -206,7 +207,7 @@ def case_2_bodies():
             )
 
     moon = CelestialBody(
-            coordinates=[Decimal(graphics.Width / 2.0), Decimal(0)],
+            coordinates=[Decimal(graphics.Width / 2.0), Decimal(30)],
             velocity=[Decimal(-5000), Decimal(0)],
             weight=earth.weight,
             radius=Decimal(earth.radius) / Decimal(10.0),
@@ -219,6 +220,7 @@ def case_2_bodies():
 
 def main_cycle():
     graphics.init()
+    getcontext().prec = 800
 
     #case_3_bodies()
 
