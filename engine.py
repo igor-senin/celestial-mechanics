@@ -37,8 +37,7 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
 
             #  TODO
 
-        for i in range(100):
-            main_system.RecalculateSystem()
+        main_system.RecalculateSystem()
 
         for b in main_system.GetBodies():
             b.draw(Coeff)
