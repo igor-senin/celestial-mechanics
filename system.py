@@ -1,6 +1,8 @@
 import body
 import physical_laws
 
+from typing import List
+
 
 class System:
     """
@@ -63,3 +65,12 @@ class System:
     def GetBodies(self):
         return self.bodies
 
+    def GetWeightCenter(self) -> List[float]:
+        weight_sum = 0
+        for b in self.bodies:
+            weight_sum += b.weight
+        center = [0.0, 0.0]
+        for b in self.bodies:
+            center[0] += (b.weight / weight_sum) * b[0]
+            center[1] += (b.weight / weight_sum) * b[1]
+        return center
