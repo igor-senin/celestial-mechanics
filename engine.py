@@ -40,6 +40,8 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
             #print(f"drawing {b.id}")
             b.draw()
 
+        graphics.draw_weight_center(main_system)
+
         graphics.display_update()
 
     pygame.quit()

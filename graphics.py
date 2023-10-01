@@ -1,4 +1,5 @@
 from body import Body
+from system import System
 
 import pygame
 
@@ -31,6 +32,13 @@ def display_update():
 def draw_universe():
     Window.fill(Black)
     Window.blit(Universe, (0,0))
+
+def draw_weight_center(system: System):
+    center = system.GetWeightCenter()
+    pygame.draw.circle(Window,
+                       Red,
+                       (int(center[0]), int(center[1])),
+                       2.0)
 
 """
     Drawable class
@@ -74,4 +82,3 @@ class CelestialBody(Body):
 
         if len(self.trace) > 750:
             self.trace = self.trace[1:]
-
