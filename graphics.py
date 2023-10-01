@@ -72,8 +72,7 @@ class CelestialBody(Body):
         self.trace.append((float(self.coordinates[0]) / coeff,
                            float(self.coordinates[1]) / coeff))
 
-        if len(self.trace) > 2:
-            self.draw_trace()
+        self.draw_trace()
 
     def draw_trace(self):
         for i in range(len(self.trace)):

@@ -13,7 +13,6 @@ import time
 
 
 # meters in one pixel
-Coeff = 7.11852 * 10**6 # TODO: float -> Decimal
 #Coeff = 1.0
 
 def do_main_cycle(bodies: List[graphics.CelestialBody]):
@@ -37,7 +36,7 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
 
             #  TODO
 
-        for i in range(100):
+        for i in range(10000):
             main_system.RecalculateSystem()
 
         for b in main_system.GetBodies():
@@ -133,7 +132,7 @@ def case_2_bodies():
     earth = CelestialBody(
             coordinates=[Decimal(Coeff * graphics.Width / 2.0),
                          Decimal(Coeff * graphics.Height / 2.0)],
-            velocity=[Decimal(50000), Decimal(0)],
+            velocity=[Decimal(0), Decimal(0)],
             weight=Decimal(5.9736 * 10**24),
             radius=Decimal(6.378 * 10**6),
             id=1,
@@ -143,19 +142,22 @@ def case_2_bodies():
 
     moon = CelestialBody(
             coordinates=[Decimal(Coeff * graphics.Width / 2.0), Decimal(Coeff * 0)],
-            velocity=[Decimal(-50000), Decimal(0)],
-            weight=earth.weight,
+            velocity=[Decimal(-200), Decimal(0)],
+            weight=Decimal(7.3477 * 10**22),
             radius=Decimal(earth.radius) / Decimal(10.0),
             id=2,
             colour=graphics.White,
             visible_radius=20.0
             )
+    print(Decimal(Coeff * graphics.Height / 2.0))
     do_main_cycle([earth, moon])
 
 
 def main_cycle():
     graphics.init()
     getcontext().prec = 800
+    global Coeff
+    Coeff = 3.844 * 10**(9) / (graphics.Height / 2.0)
 
     #case_3_bodies()
 
