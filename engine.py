@@ -20,12 +20,12 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
     clock = pygame.time.Clock()
     run = True
 
+
     phl = PhysicalLaws()
-    getcontext().prec = 1000
     main_system = System(phl, bodies)
 
     while run:
-        clock.tick(1200)
+        clock.tick(60)
         graphics.draw_universe()
 
         for event in pygame.event.get():
@@ -37,7 +37,8 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
 
             #  TODO
 
-        main_system.RecalculateSystem()
+        for i in range(100):
+            main_system.RecalculateSystem()
 
         for b in main_system.GetBodies():
             b.draw(Coeff)
@@ -154,6 +155,7 @@ def case_2_bodies():
 
 def main_cycle():
     graphics.init()
+    getcontext().prec = 800
 
     #case_3_bodies()
 
