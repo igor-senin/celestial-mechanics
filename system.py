@@ -16,7 +16,7 @@ class System:
 
     def __init__(self, physical_laws, bodies):
         self.bodies = bodies 
-        self.accuracy = Decimal('10.0')
+        self.accuracy = Decimal('100')
         self.time = self.accuracy # may be unused
         self.physical_laws = physical_laws
 
