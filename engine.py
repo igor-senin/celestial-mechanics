@@ -12,10 +12,7 @@ from math import sqrt
 import time
 
 
-# meters in one pixel
-#Coeff = 1.0
-
-def do_main_cycle(bodies: List[graphics.CelestialBody]):
+def do_main_cycle(bodies: List[graphics.CelestialBody], scale_coeff):
     clock = pygame.time.Clock()
     run = True
 
@@ -40,9 +37,9 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
             main_system.RecalculateSystem()
 
         for b in main_system.GetBodies():
-            b.draw(Coeff)
+            b.draw(scale_coeff)
 
-        graphics.draw_weight_center(main_system, Coeff)
+        graphics.draw_weight_center(main_system, scale_coeff)
 
         graphics.display_update()
 
@@ -50,85 +47,92 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
 
 
 def case_3_bodies():
+    Coeff = 3.844 * 10**(9) / (graphics.Height / 2.0)
+
     earth = CelestialBody(
-            coordinates=[graphics.Width / 2.0,
-                         graphics.Height / 2.0], velocity=[0, 500],
-            weight=5 * 10**18,
-            radius=6.378 * 10**6,
+            coordinates=[Decimal(Coeff * graphics.Width / 2.0),
+                         Decimal(Coeff * graphics.Height / 2.0)],
+            velocity=[Decimal(-250.0), Decimal(150.0)],
+            weight=Decimal(5.9742 * 10**24),
+            radius=Decimal(6.378 * 10**6),
             id=1,
             colour=graphics.Blue,
             visible_radius=40.0
             )
 
     moon = CelestialBody(
-            coordinates=[graphics.Width / 2.0, 0],
-            velocity=[500, 0],
+            coordinates=[Decimal(Coeff * graphics.Width / 2.0),
+                         Decimal(0.0)],
+            velocity=[Decimal(300.0), Decimal(150.0)],
             weight=earth.weight,
-            radius=earth.radius/10.0,
+            radius=Decimal(float(earth.radius)/10.0),
             id=2,
             colour=graphics.White,
             visible_radius=20.0
             )
 
     mercury = CelestialBody(
-            coordinates=[1500, 500],
-            velocity=[250, 300],
+            coordinates=[Decimal(Coeff * 1500.0), Decimal(Coeff * 500.0)],
+            velocity=[Decimal(150.0), Decimal(-200.0)],
             weight=earth.weight,
-            radius=earth.radius/10.0,
+            radius=Decimal(float(earth.radius)/10.0),
             id=3,
             colour=graphics.Red,
             visible_radius = 25.0
             )
 
-    do_main_cycle([earth, moon, mercury])
+    do_main_cycle([earth, moon, mercury], Coeff)
 
 def case_solar_system():
+    Coeff = 1.4959787 * 10**12 / (graphics.Height / 2.0)
+
     sun = CelestialBody(
-            coordinates=[graphics.Width / 2.0,
-                         graphics.Height / 2.0],
-            velocity=[0, 0],
-            weight=5 * 10**20,
-            radius=6.378 * 10**6,
+            coordinates=[Decimal(Coeff * graphics.Width / 2.0),
+                         Decimal(Coeff * graphics.Height / 2.0)],
+            velocity=[Decimal(0.0), Decimal(0.0)],
+            weight=Decimal(1.98892 * 10**33),
+            radius=Decimal(6.378 * 10**6),
             id=1,
             colour=graphics.Yellow,
             visible_radius=70.0
             )
 
     moon = CelestialBody(
-            coordinates=[50, 50],
-            velocity=[500, 0],
-            weight=10**18,
-            radius=sun.radius/10.0,
+            coordinates=[Decimal(Coeff * 50), Decimal(Coeff * 50)],
+            velocity=[Decimal(1000.0), Decimal(200.0)],
+            weight=Decimal(7.36 * 10**22),
+            radius=Decimal(float(sun.radius)/10.0),
             id=2,
             colour=graphics.White,
             visible_radius=20.0
             )
 
     mars = CelestialBody(
-            coordinates=[0, 500],
-            velocity=[250, 300],
-            weight=2 * 10**18,
-            radius=sun.radius/10.0,
+            coordinates=[Decimal(Coeff * 0.0), Decimal(Coeff * 500.0)],
+            velocity=[Decimal(750.0), Decimal(300.0)],
+            weight=Decimal(6.39 * 10**23),
+            radius=Decimal(float(sun.radius)/10.0),
             id=3,
             colour=graphics.Red,
             visible_radius = 25.0
             )
 
     earth = CelestialBody(
-            coordinates=[500, 500],
-            velocity=[250, 300],
-            weight=5* 10**18,
-            radius=sun.radius/10.0,
+            coordinates=[Decimal(Coeff * 500.0), Decimal(Coeff * 500.0)],
+            velocity=[Decimal(100000.0), Decimal(100000.0)],
+            weight=Decimal(5.9742 * 10**24),
+            radius=Decimal(float(sun.radius)/10.0),
             id=4,
             colour=graphics.Blue,
             visible_radius = 30.0
             )
 
-#    do_main_cycle([sun, earth, moon, mars])
-    do_main_cycle([sun, earth])
+    do_main_cycle([sun, earth, moon, mars], Coeff)
 
 
 def case_2_bodies():
+    Coeff = 3.844 * 10**(9) / (graphics.Height / 2.0)
+
     earth = CelestialBody(
             coordinates=[Decimal(Coeff * graphics.Width / 2.0),
                          Decimal(Coeff * graphics.Height / 2.0)],
@@ -149,7 +153,36 @@ def case_2_bodies():
             colour=graphics.White,
             visible_radius=20.0
             )
-    do_main_cycle([earth, moon])
+    print(Decimal(Coeff * graphics.Height / 2.0))
+    do_main_cycle([earth, moon], Coeff)
+
+
+def case_2_bodies_parabola():
+    Coeff = 3.844 * 10**(9) / (graphics.Height / 2.0)
+
+    earth = CelestialBody(
+            coordinates=[Decimal(Coeff * graphics.Width),
+                         Decimal(Coeff * graphics.Height / 3.0)],
+            velocity=[Decimal(-200), Decimal(0)],
+            weight=Decimal(5.9736 * 10**24),
+            radius=Decimal(6.378 * 10**6),
+            id=1,
+            colour=graphics.Blue,
+            visible_radius=20.0
+            )
+
+    moon = CelestialBody(
+            coordinates=[Decimal(Coeff * 0.0),
+                         Decimal(Coeff * 2.0*graphics.Height/3.0)],
+            velocity=[Decimal(200), Decimal(0)],
+            weight=Decimal(5.9736 * 10**24),
+            radius=Decimal(earth.radius) / Decimal(10.0),
+            id=2,
+            colour=graphics.White,
+            visible_radius=20.0
+            )
+    print(Decimal(Coeff * graphics.Height / 2.0))
+    do_main_cycle([earth, moon], Coeff)
 
 
 def main_cycle():
@@ -160,6 +193,8 @@ def main_cycle():
 
     #case_3_bodies()
 
-    case_2_bodies()
-
     #case_solar_system()
+
+    #case_2_bodies()
+
+    case_2_bodies_parabola()
