@@ -57,10 +57,10 @@ class CelestialBody(Body):
     def draw(self):
         pygame.draw.circle(Window,
                            self.colour, 
-                          (self.coordinates[0], self.coordinates[1]), 
+                          (int(self.coordinates[0]), int(self.coordinates[1])), 
                            self.visible_radius)
 
-        self.trace.append((self.coordinates[0], self.coordinates[1]))
+        self.trace.append((int(self.coordinates[0]), int(self.coordinates[1])))
 
         if len(self.trace) > 2:
             self.draw_trace()

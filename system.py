@@ -1,5 +1,6 @@
 import body
 import physical_laws
+from decimal import *
 
 
 class System:
@@ -13,7 +14,7 @@ class System:
 
     def __init__(self, physical_laws, bodies):
         self.bodies = bodies 
-        self.accuracy = 10**(-4)
+        self.accuracy = Decimal('0.00001')
         self.time = self.accuracy # may be unused
         self.physical_laws = physical_laws
 
@@ -24,8 +25,8 @@ class System:
         bodies_copy = self.bodies.copy()
         bodies_size = len(bodies_copy)
 
-        potential = 0
-        kinetic = 0
+        potential = Decimal(0)
+        kinetic = Decimal(0)
 
         for i in range(bodies_size):
             for j in range(bodies_size):

@@ -1,4 +1,5 @@
 from typing import List
+from decimal import Decimal
 
 class Body:
     """
@@ -6,10 +7,10 @@ class Body:
     with their parameters like weight or speed
     """
     def __init__(self, 
-                 weight: float, 
-                 radius: float, 
-                 coordinates: List[float], 
-                 velocity: List[float],
+                 weight: Decimal, 
+                 radius: Decimal, 
+                 coordinates: List[Decimal], 
+                 velocity: List[Decimal],
                  id: int):
         self.weight = weight
         self.radius = radius 
