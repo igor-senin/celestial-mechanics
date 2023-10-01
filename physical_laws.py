@@ -17,7 +17,65 @@ class PhysicalLaws:
     def __init__(self):
         pass
 
-    def CalculateLawOfUniversalGravitation(self, first_body, second_body, accuracy, time):
+    def RongeKuttaMethod(self, first_body, second_body, accuracy, use_pre):
+        norm_squared = Decimal(0)
+        result = [[], []]
+        m = second_body.weight;
+        h = accuracy
+        if use_pre == False:
+            for i in range(len(first_body.coordinates)):
+                norm_squared += (first_body.coordinates[i] - second_body.coordinates[i]) ** 2
+
+            for i in range(len(first_body.coordinates)):
+                distance = second_body.coordinates[i] - first_body.coordinates[i]
+                norm_coeff = distance / norm_squared.sqrt()
+
+                r_t = first_body.coordinates[i]
+                r_t_dt2 = first_body.pre_coordinates[i]
+                v_t = first_body.velocity[i]
+
+                k0 = v_t
+                q0 = G * m / r_t ** 2 * norm_coeff 
+                k1 = v_t + q0 * h / 2
+                q1 = G * m / (r_t_dt2 + k0 * h / 2) * norm_coeff 
+                k2 = v_t + q1 * h / 2
+                q2 = G * m / (r_t_dt2  + k1 * h / 2)
+                k3 = v_t + q2 * h 
+                q3 = G * m / (r_t + k2 * h)
+                v_t_dt = v_t + h / 6 * (q0 + 2 * q1 + 2 * q2 + q3)
+                r_t_dt = r_t + h / 6 * (k0 + 2 * k1 + 2 * k2 + k3)
+                result[0].append(r_t_dt - r_t)
+                result[1].append(v_t_dt - v_t)
+        else:
+            for i in range(len(first_body.pre_coordinates)):
+                norm_squared += (first_body.pre_coordinates[i] - second_body.pre_coordinates[i]) ** 2
+
+            for i in range(len(first_body.pre_coordinates)):
+                distance = second_body.pre_coordinates[i] - first_body.pre_coordinates[i]
+                norm_coeff = distance / norm_squared.sqrt()
+
+                r_t = first_body.pre_coordinates[i]
+                r_t_dt2 = first_body.coordinates[i]
+                v_t = first_body.pre_velocity[i]
+
+                k0 = v_t
+                q0 = G * m / r_t ** 2 * norm_coeff 
+                k1 = v_t + q0 * h / 2
+                q1 = G * m / (r_t_dt2 + k0 * h / 2) * norm_coeff 
+                k2 = v_t + q1 * h / 2
+                q2 = G * m / (r_t_dt2  + k1 * h / 2)
+                k3 = v_t + q2 * h 
+                q3 = G * m / (r_t + k2 * h)
+                v_t_dt = v_t + h / 6 * (q0 + 2 * q1 + 2 * q2 + q3)
+                r_t_dt = r_t + h / 6 * (k0 + 2 * k1 + 2 * k2 + k3)
+                result[0].append(r_t_dt - r_t)
+                result[1].append(v_t_dt - v_t)
+
+        return result
+        
+
+
+    def EilerMethod(self, first_body, second_body, accuracy, time):
         """
         in this function, using the Euler method, the increase in speed and the change 
         in the coordinates of one body relative to another are calculated according to 
@@ -41,11 +99,11 @@ class PhysicalLaws:
 
 
 
-    def TransformationShift(self, first_body, second_body, accuracy, time):
-        return self.CalculateLawOfUniversalGravitation(first_body, second_body, accuracy, time)
+    def TransformationShift(self, first_body, second_body, accuracy, time, use_pre):
+        return self.RongeKuttaMethod(first_body, second_body, accuracy, use_pre)
 
-    def Transformation(self, first_body: Body, second_body: Body, accuracy : Decimal, time: Decimal):
-        result = self.TransformationShift(first_body, second_body, accuracy, time)
+    def Transformation(self, first_body: Body, second_body: Body, accuracy : Decimal, time: Decimal, use_pre : bool):
+        result = self.TransformationShift(first_body, second_body, accuracy, time, use_pre)
 
         return result
 

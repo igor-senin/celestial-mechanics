@@ -36,7 +36,7 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
 
             #  TODO
 
-        for i in range(10000):
+        for i in range(2):
             main_system.RecalculateSystem()
 
         for b in main_system.GetBodies():
@@ -149,13 +149,12 @@ def case_2_bodies():
             colour=graphics.White,
             visible_radius=20.0
             )
-    print(Decimal(Coeff * graphics.Height / 2.0))
     do_main_cycle([earth, moon])
 
 
 def main_cycle():
     graphics.init()
-    getcontext().prec = 800
+    getcontext().prec = 80
     global Coeff
     Coeff = 3.844 * 10**(9) / (graphics.Height / 2.0)
 

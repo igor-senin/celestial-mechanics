@@ -15,6 +15,8 @@ class Body:
         self.weight = weight
         self.radius = radius 
         self.coordinates = coordinates
+        self.pre_coordinates = coordinates
+        self.pre_velocity = velocity
         self.velocity = velocity
         self.id = id
 
