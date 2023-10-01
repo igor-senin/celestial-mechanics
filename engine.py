@@ -16,13 +16,10 @@ def do_main_cycle(bodies: List[graphics.CelestialBody]):
     clock = pygame.time.Clock()
     run = True
 
-    accuracy = 0.0001
-    centre = [0., 0.]
-
     phl = PhysicalLaws()
-    main_system = System(accuracy, centre, phl, bodies)
+    main_system = System(phl, bodies)
     while run:
-        clock.tick(60)
+        clock.tick(120)
         graphics.draw_universe()
 
         for event in pygame.event.get():
@@ -135,7 +132,7 @@ def case_3_bodies():
             )
 
     mercury = CelestialBody(
-            coordinates=[500, 500],
+            coordinates=[1500, 500],
             velocity=[250, 300],
             weight=earth.weight,
             radius=earth.radius/10.0,
@@ -192,9 +189,34 @@ def case_solar_system():
     do_main_cycle([sun, earth])
 
 
+def case_2_bodies():
+    earth = CelestialBody(
+            coordinates=[graphics.Width / 2.0,
+                         graphics.Height / 2.0], velocity=[0, 0],
+            weight=5.9736 * 10**22,
+            radius=6.378 * 10**6,
+            id=1,
+            colour=graphics.Blue,
+            visible_radius=40.0
+            )
+
+    moon = CelestialBody(
+            coordinates=[50, 50],
+            velocity=[20000, -20000],
+            weight=7.348 * 10**20,
+            radius=earth.radius/10.0,
+            id=2,
+            colour=graphics.White,
+            visible_radius=20.0
+            )
+    do_main_cycle([earth, moon])
+
+
 def main_cycle():
     graphics.init()
 
-    case_3_bodies()
+    #case_3_bodies()
+
+    case_2_bodies()
 
     #case_solar_system()

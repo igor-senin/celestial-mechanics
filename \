@@ -30,13 +30,13 @@ class PhysicalLaws:
 
         distance_squared = x_distance ** 2 + y_distance ** 2
 
-        v_x_dt = v_x + accuracy * G * second_body.weight / distance_squared * (x_distance / sqrt(distance_squared))
-        v_y_dt = v_y + accuracy * G * second_body.weight / distance_squared * (y_distance / sqrt(distance_squared))
+        v_x_dt = v_x + accuracy * -G * second_body.weight / distance_squared * (-1 if x_distance < 0 else 1)
+        v_y_dt = v_y + accuracy * -G * second_body.weight / distance_squared * (-1 if y_distance < 0 else 1)
 
-        coordinates_shift = [v_x_dt * time, v_y_dt * time]
-        velocity_shift =  [v_x_dt - v_x, v_y_dt - v_y]
+        coordinate_shift = [v_x_dt  * time, v_y_dt * time]
+        direction_shift =  [v_x_dt - v_x, v_y_dt - v_y]
         
-        return [coordinates_shift, velocity_shift]
+        return [coordinate_shift, direction_shift]
 
 
 
@@ -44,12 +44,14 @@ class PhysicalLaws:
         return self.CalculateLawOfUniversalGravitation(first_body, second_body, accuracy, time)
 
     def Transformation(self, first_body: Body, second_body: Body, accuracy : float, time: float):
+        """
+        """
         result = self.TransformationShift(first_body, second_body, accuracy, time)
 
         return result
 
     def GetPotential(self, first, second) -> float:
-        return G * first.weight * second.weight / sqrt((first[0] -
+        return self.G * first.weight * second.weight / sqrt((first[0] -
                                                              second[0])**2 +
                                                             (first[1] -
                                                              second[1]) ** 2)
