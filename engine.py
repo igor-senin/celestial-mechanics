@@ -188,8 +188,6 @@ def case_2_bodies_parabola():
 def main_cycle():
     graphics.init()
     getcontext().prec = 80
-    global Coeff
-    Coeff = 3.844 * 10**(9) / (graphics.Height / 2.0)
 
     #case_3_bodies()
 

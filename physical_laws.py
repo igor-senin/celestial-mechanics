@@ -1,12 +1,12 @@
 from body import Body
-from decimal import *
+from util import Vector
 
+from decimal import *
 from math import sqrt
 
 
 # constants
 G = Decimal((0, (6, 6, 7, 4, 3, 0), -16)) 
-
 
 class PhysicalLaws:
     """
@@ -17,11 +17,11 @@ class PhysicalLaws:
     def __init__(self):
         pass
 
-    def RongeKuttaMethod(self, first_body, second_body, accuracy, use_pre):
+    # TODO: Lists -> Vector
+    def RongeKuttaMethod(self, first_body, second_body, h, use_pre):
         norm_squared = Decimal(0)
         result = [[], []]
         m = second_body.weight;
-        h = accuracy
         if use_pre == False:
             for i in range(len(first_body.coordinates)):
                 norm_squared += (first_body.coordinates[i] - second_body.coordinates[i]) ** 2
@@ -75,7 +75,7 @@ class PhysicalLaws:
         
 
 
-    def EilerMethod(self, first_body, second_body, accuracy, time):
+    def EulerMethod(self, first_body, second_body, accuracy, time):
         """
         in this function, using the Euler method, the increase in speed and the change 
         in the coordinates of one body relative to another are calculated according to 
