@@ -1,9 +1,6 @@
 from body import Body
 from decimal import *
 
-from math import sqrt
-
-
 # constants
 G = Decimal((0, (6, 6, 7, 4, 3, 0), -16)) 
 
@@ -15,63 +12,57 @@ class PhysicalLaws:
     """
 
     def __init__(self):
+        getcontext().prec = 80
         pass
 
-    def RongeKuttaMethod(self, first_body, second_body, accuracy, use_pre):
+    def GetNormSquared(self, first_coordinates, second_coordinates):
         norm_squared = Decimal(0)
-        result = [[], []]
+        for i in range(len(first_coordinates)):
+            norm_squared += ((first_coordinates[i] - second_coordinates[i]) ** 2)
+        return norm_squared
+
+    def RongeKuttaMethodHelper(self, m, h, v_t, norm_coeff, norm_squared):
+
+        f = lambda r: (G * m / (r ** 2)) * norm_coeff
+        g = lambda v: v
+        
+
+        q0 = f(norm_squared.sqrt())
+        q1 = f(norm_squared.sqrt() + q0 / 2)
+        q2 = f(norm_squared.sqrt() + q1 / 2)
+        q3 = f(norm_squared.sqrt() + q2)
+
+        k0 = g(v_t)
+        k1 = g(v_t + k0 / 2)
+        k2 = g(v_t + k1 / 2)
+        k3 = g(v_t + k2)
+
+
+        v_t_dt = v_t + h * (q0 + 2 * q1 + 2 * q2 + q3) / 6
+
+        r_dt = h * (k0 + 2 * k1 + 2 * k2 + k3) / 6 #(v_t + v_t_dt) / 2
+        return [r_dt, v_t_dt - v_t]
+
+
+    def RongeKuttaMethod(self, first_body, second_body, accuracy):
+        result_coord = []
+        result_velocity = []
         m = second_body.weight;
         h = accuracy
-        if use_pre == False:
-            for i in range(len(first_body.coordinates)):
-                norm_squared += (first_body.coordinates[i] - second_body.coordinates[i]) ** 2
+        norm_squared = self.GetNormSquared(first_body.coordinates, second_body.coordinates)
 
-            for i in range(len(first_body.coordinates)):
-                distance = second_body.coordinates[i] - first_body.coordinates[i]
-                norm_coeff = distance / norm_squared.sqrt()
+        for i in range(len(first_body.coordinates)):
+            distance = second_body.coordinates[i] - first_body.coordinates[i]
+            norm_coeff = distance / norm_squared.sqrt()
 
-                r_t = first_body.coordinates[i]
-                r_t_dt2 = first_body.pre_coordinates[i]
-                v_t = first_body.velocity[i]
+            v_t = first_body.velocity[i]
 
-                k0 = v_t
-                q0 = G * m / r_t ** 2 * norm_coeff 
-                k1 = v_t + q0 * h / 2
-                q1 = G * m / (r_t_dt2 + k0 * h / 2) * norm_coeff 
-                k2 = v_t + q1 * h / 2
-                q2 = G * m / (r_t_dt2  + k1 * h / 2)
-                k3 = v_t + q2 * h 
-                q3 = G * m / (r_t + k2 * h)
-                v_t_dt = v_t + h / 6 * (q0 + 2 * q1 + 2 * q2 + q3)
-                r_t_dt = r_t + h / 6 * (k0 + 2 * k1 + 2 * k2 + k3)
-                result[0].append(r_t_dt - r_t)
-                result[1].append(v_t_dt - v_t)
-        else:
-            for i in range(len(first_body.pre_coordinates)):
-                norm_squared += (first_body.pre_coordinates[i] - second_body.pre_coordinates[i]) ** 2
+            pre_result = self.RongeKuttaMethodHelper(m, h, v_t, norm_coeff, norm_squared)
 
-            for i in range(len(first_body.pre_coordinates)):
-                distance = second_body.pre_coordinates[i] - first_body.pre_coordinates[i]
-                norm_coeff = distance / norm_squared.sqrt()
+            result_coord.append(pre_result[0])
+            result_velocity.append(pre_result[1])
 
-                r_t = first_body.pre_coordinates[i]
-                r_t_dt2 = first_body.coordinates[i]
-                v_t = first_body.pre_velocity[i]
-
-                k0 = v_t
-                q0 = G * m / r_t ** 2 * norm_coeff 
-                k1 = v_t + q0 * h / 2
-                q1 = G * m / (r_t_dt2 + k0 * h / 2) * norm_coeff 
-                k2 = v_t + q1 * h / 2
-                q2 = G * m / (r_t_dt2  + k1 * h / 2)
-                k3 = v_t + q2 * h 
-                q3 = G * m / (r_t + k2 * h)
-                v_t_dt = v_t + h / 6 * (q0 + 2 * q1 + 2 * q2 + q3)
-                r_t_dt = r_t + h / 6 * (k0 + 2 * k1 + 2 * k2 + k3)
-                result[0].append(r_t_dt - r_t)
-                result[1].append(v_t_dt - v_t)
-
-        return result
+        return [result_coord, result_velocity]
         
 
 
@@ -99,11 +90,11 @@ class PhysicalLaws:
 
 
 
-    def TransformationShift(self, first_body, second_body, accuracy, time, use_pre):
-        return self.RongeKuttaMethod(first_body, second_body, accuracy, use_pre)
+    def TransformationShift(self, first_body, second_body, accuracy, time):
+        return self.RongeKuttaMethod(first_body, second_body, accuracy)
 
-    def Transformation(self, first_body: Body, second_body: Body, accuracy : Decimal, time: Decimal, use_pre : bool):
-        result = self.TransformationShift(first_body, second_body, accuracy, time, use_pre)
+    def Transformation(self, first_body: Body, second_body: Body, accuracy : Decimal, time: Decimal):
+        result = self.TransformationShift(first_body, second_body, accuracy, time)
 
         return result
 

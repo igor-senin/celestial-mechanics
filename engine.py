@@ -16,7 +16,6 @@ def do_main_cycle(bodies: List[graphics.CelestialBody], scale_coeff):
     clock = pygame.time.Clock()
     run = True
 
-
     phl = PhysicalLaws()
     main_system = System(phl, bodies)
 
@@ -161,7 +160,7 @@ def case_2_bodies_parabola():
     Coeff = 3.844 * 10**(9) / (graphics.Height / 2.0)
 
     earth = CelestialBody(
-            coordinates=[Decimal(Coeff * graphics.Width),
+            coordinates=[Decimal(Coeff * graphics.Width / 4 * 3),
                          Decimal(Coeff * graphics.Height / 3.0)],
             velocity=[Decimal(-200), Decimal(0)],
             weight=Decimal(5.9736 * 10**24),
@@ -172,7 +171,7 @@ def case_2_bodies_parabola():
             )
 
     moon = CelestialBody(
-            coordinates=[Decimal(Coeff * 0.0),
+            coordinates=[Decimal(Coeff * graphics.Width / 4),
                          Decimal(Coeff * 2.0*graphics.Height/3.0)],
             velocity=[Decimal(200), Decimal(0)],
             weight=Decimal(5.9736 * 10**24),
@@ -185,6 +184,47 @@ def case_2_bodies_parabola():
     do_main_cycle([earth, moon], Coeff)
 
 
+def case_3_bodies_triangle():
+    Coeff = 3.844 * 10**(9) / (graphics.Height / 2.0)
+
+    H = graphics.Height / 3.0
+    A = 2 * H / sqrt(3)
+
+    moon1 = CelestialBody(
+            coordinates=[Decimal(Coeff * graphics.Width / 2.0),
+                         Decimal(Coeff * graphics.Height / 3.0)],
+            velocity=[Decimal(-100), Decimal(0)],
+            weight=Decimal(9 * 10**23),
+            radius=Decimal(6.378 * 10**6),
+            id=1,
+            colour=graphics.Blue,
+            visible_radius=20.0
+            )
+
+    moon2 = CelestialBody(
+            coordinates=[Decimal(Coeff * (graphics.Width / 2.0 - A / 2.0)),
+                         Decimal(Coeff * 2 * graphics.Height / 3.0)],
+            velocity=[Decimal(50), Decimal(50 * sqrt(3.0))],
+            weight=moon1.weight,
+            radius=Decimal(6.378 * 10**6),
+            id=2,
+            colour=graphics.White,
+            visible_radius=20.0
+            )
+
+    moon3 = CelestialBody(
+            coordinates=[Decimal(Coeff * (graphics.Width / 2.0 + A / 2.0)),
+                         Decimal(Coeff * 2 * graphics.Height / 3.0)],
+            velocity=[Decimal(50), Decimal(-50 * sqrt(3.0))],
+            weight=moon1.weight,
+            radius=Decimal(6.378 * 10**6),
+            id=3,
+            colour=graphics.Red,
+            visible_radius=20.0
+            )
+    do_main_cycle([moon1, moon2, moon3], Coeff)
+
+
 def main_cycle():
     graphics.init()
     getcontext().prec = 80
@@ -194,7 +234,6 @@ def main_cycle():
     #case_3_bodies()
 
     #case_solar_system()
+    case_3_bodies_triangle()
 
-    #case_2_bodies()
-
-    case_2_bodies_parabola()
+    #case_2_bodies_parabola()
