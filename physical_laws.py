@@ -1,9 +1,11 @@
 from body import Body
+from util import Vector
+
 from decimal import *
+
 
 # constants
 G = Decimal((0, (6, 6, 7, 4, 3, 0), -16)) 
-
 
 class PhysicalLaws:
     """
@@ -13,7 +15,6 @@ class PhysicalLaws:
 
     def __init__(self):
         getcontext().prec = 80
-        pass
 
     def GetNormSquared(self, first_coordinates, second_coordinates):
         norm_squared = Decimal(0)
@@ -21,6 +22,7 @@ class PhysicalLaws:
             norm_squared += ((first_coordinates[i] - second_coordinates[i]) ** 2)
         return norm_squared
 
+    # TODO: Lists -> Vector
     def RongeKuttaMethodHelper(self, m, h, v_t, norm_coeff, norm_squared):
 
         f = lambda r: (G * m / (r ** 2)) * norm_coeff
@@ -66,25 +68,24 @@ class PhysicalLaws:
         
 
 
-    def EilerMethod(self, first_body, second_body, accuracy, time):
+    def EulerMethod(self, first_body, second_body, accuracy, time):
         """
         in this function, using the Euler method, the increase in speed and the change 
         in the coordinates of one body relative to another are calculated according to 
         the law of universal gravitation
         """
-        x_distance = second_body.coordinates[0] - first_body.coordinates[0]
-        v_x = first_body.velocity[0]
+        distance = second_body.coordinates -  first_body.coordinates
+        v = first_body.velocity
 
-        y_distance = second_body.coordinates[1] - first_body.coordinates[1]
-        v_y = first_body.velocity[1]
+        distance_squared = distance.NormSquared()
 
-        distance_squared = x_distance ** 2 + y_distance ** 2
+        v_dt = v + accuracy * G * second_body.weight / distance_squared * (distance / distance_squared.sqrt())
 
-        v_x_dt = v_x + accuracy * G * second_body.weight / distance_squared * (x_distance / distance_squared.sqrt())
-        v_y_dt = v_y + accuracy * G * second_body.weight / distance_squared * (y_distance / distance_squared.sqrt())
+        #v_x_dt = v_x + accuracy * G * second_body.weight / distance_squared * (x_distance / distance_squared.sqrt())
+        #v_y_dt = v_y + accuracy * G * second_body.weight / distance_squared * (y_distance / distance_squared.sqrt())
 
-        coordinates_shift = [(v_x_dt + v_x) / 2 * time, (v_y_dt + v_y) / 2 * time]
-        velocity_shift =  [v_x_dt - v_x, v_y_dt - v_y]
+        coordinates_shift = (v_dt + v) / 2 * time
+        velocity_shift =  v_dt - v
         
         return [coordinates_shift, velocity_shift]
 

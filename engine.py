@@ -9,7 +9,6 @@ from typing import List
 
 from decimal import *
 from math import sqrt
-import time
 
 
 def do_main_cycle(bodies: List[graphics.CelestialBody], scale_coeff):
@@ -228,8 +227,6 @@ def case_3_bodies_triangle():
 def main_cycle():
     graphics.init()
     getcontext().prec = 80
-    global Coeff
-    Coeff = 3.844 * 10**(9) / (graphics.Height / 2.0)
 
     #case_3_bodies()
 

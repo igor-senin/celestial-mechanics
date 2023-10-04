@@ -65,12 +65,12 @@ class CelestialBody(Body):
     def draw(self, coeff: float):
         pygame.draw.circle(Window,
                            self.colour, 
-                          (float(self.coordinates[0]) / coeff,
-                           float(self.coordinates[1]) / coeff), 
+                          (float(self[0]) / coeff,
+                           float(self[1]) / coeff), 
                            self.visible_radius)
 
-        self.trace.append((float(self.coordinates[0]) / coeff,
-                           float(self.coordinates[1]) / coeff))
+        self.trace.append((float(self[0]) / coeff,
+                           float(self[1]) / coeff))
 
         self.draw_trace()
 

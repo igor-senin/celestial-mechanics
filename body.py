@@ -1,6 +1,6 @@
 from typing import List
 from decimal import Decimal
-import numpy as np
+from util import Vector
 
 class Body:
     """
@@ -15,9 +15,8 @@ class Body:
                  id: int):
         self.weight = weight
         self.radius = radius 
-        self.coordinates = coordinates
-        self.pre_velocity = velocity
-        self.velocity = velocity
+        self.coordinates = Vector(coordinates.copy())
+        self.velocity = Vector(velocity.copy())
         self.id = id
 
     def __getitem__(self, ind):
