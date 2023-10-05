@@ -81,9 +81,6 @@ class PhysicalLaws:
 
         v_dt = v + accuracy * G * second_body.weight / distance_squared * (distance / distance_squared.sqrt())
 
-        #v_x_dt = v_x + accuracy * G * second_body.weight / distance_squared * (x_distance / distance_squared.sqrt())
-        #v_y_dt = v_y + accuracy * G * second_body.weight / distance_squared * (y_distance / distance_squared.sqrt())
-
         coordinates_shift = (v_dt + v) / 2 * time
         velocity_shift =  v_dt - v
         

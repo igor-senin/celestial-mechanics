@@ -20,7 +20,7 @@ def do_main_cycle(bodies: List[graphics.CelestialBody], scale_coeff):
     main_system = System(phl, bodies)
 
     while run:
-        clock.tick(60)
+        clock.tick(200)
         graphics.draw_universe()
 
         for event in pygame.event.get():
@@ -47,11 +47,10 @@ def do_main_cycle(bodies: List[graphics.CelestialBody], scale_coeff):
 
 def main_cycle():
     graphics.init()
-    getcontext().prec = 80
+    getcontext().prec = 150
 
-    #case_3_bodies()
-
-    #case_solar_system()
-    do_main_cycle(*examples.case_2_bodies_parabola())
-
-    #case_2_bodies_parabola()
+    #do_main_cycle(*examples.case_2_bodies_parabola())
+    #do_main_cycle(*examples.case_3_bodies())
+    #do_main_cycle(*examples.case_3_bodies_triangle())
+    do_main_cycle(*examples.case_solar_system())
+    #do_main_cycle(*examples.case_2_bodies())

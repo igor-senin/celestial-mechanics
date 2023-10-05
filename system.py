@@ -18,7 +18,7 @@ class System:
 
     def __init__(self, physical_laws, bodies):
         self.bodies = bodies # no copy
-        self.accuracy = Decimal('10000')
+        self.accuracy = Decimal('100')
         self.time = self.accuracy # may be unused
         self.physical_laws = physical_laws
         getcontext().prec = 80
